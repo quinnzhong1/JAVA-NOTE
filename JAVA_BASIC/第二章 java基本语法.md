@@ -257,6 +257,18 @@
       Pass;
     }while();
     ```
+    * `break` & `continue`
+    * 作用在最近的loop
+    * 标签:结束特定循环
+      ```java
+      label：for(;;) {
+        for(;;) {
+          break label;
+          // continue lable;
+        }
+      }
+  * return： 结束一个方法，返回特定值 
 
-
+* 其他method
+  * String - readKeyBoard()
 

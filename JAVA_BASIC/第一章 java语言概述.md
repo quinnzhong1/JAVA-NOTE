@@ -8,7 +8,7 @@
   - 常用DOS命令：见 java其他常用分区
   - 语言发展：机器语言、汇编语言、高级语言（面向过程&面向对象）
   - 后台开发：Java, PHP, Python, Go, Node.js
-  - Green project: Oak    jdk 1.5 -5.0    jdk 8.09.0 10.0(18.3) 11.0(18.9)
+  - Green project: Oak    jdk 1.5 -5.0    jdk 8.0 9.0 10.0(18.3) 11.0(18.9)
   - 应用：Java Web 开发：后台开发   大数据开发   Android应用程序开发：客户端开发
   - Java SE Java EE Java ME Java Card
   - Java两种核心机制：Java虚拟机(Java Virtal Machine)、垃圾收集机制(Garbage Collection)
@@ -20,10 +20,7 @@
   - 配置path环境变量的原因：为了能在任何文件路径下运行JDK的Java开发工具，当找不到本目录下的该程序时，windows会去系统的环境变量里找路径，然后就能找到path上。必须把该环境变量放在第一位配置。
   - JAVA\_HOME = bin的上一层
   - path = %JAVA\_HOME%\\bin
-  - Java源文件以“java”为扩展名。源文件的基本组成部分是类（class）， 如
-
-
-本例中的HelloWorld类。
+  - Java源文件以“java”为扩展名。源文件的基本组成部分是类（class）， 如本例中的HelloWorld类。
 
 - Java应用程序的执行入口是main()方法。它有固定的书写格式：
 
