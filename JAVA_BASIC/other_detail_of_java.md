@@ -1,5 +1,6 @@
 ## Eclipse
 
+### 快捷键
 * file - import - general - existing projects into workspace可以导入项目
 * 右键 - filter - 能隐藏或者显示projects
 * 右键 - close - 可关闭projects
@@ -15,8 +16,42 @@
   ![](./picture/quick_eclipse1.png)
   ![](./picture/quick_eclipse2.png)
   ![](./picture/quick_eclipse3.png)
+
+### Debug
+1. 方法一：System.out.println() + 注释
+2. 方法二：debug
+   * 设置断点: 行号左边点击，可加多个断点
+   * debug：然后右键debug as
+   * step into f5 : 进入到当前行所调用的方法
+   * step over f6 : 执行完当前行所在的语句，进入下一行
+   * step return f7 : 执行完当前行所在的方法，调下一行
+   * drop to frame: 回到当前行所在方法的第一行
+   * resume: 执行完当前行所在断点所有代码，进入下一个断点，如果没有就结束
+
+### JUnit Test
+  * 点project右键
+  * 选building path
+  * 选add libraries
+  * 选JUnit
+  * 选version
+  * 从而添加了一个新包
+  * 创建java class，进行单元测试
+  * java要求 - public，有公共无参构造器
+  * 此类中声明单元测试方法 public，没有return，没有形参
+  * 单元测试方法需要
+    * 声明注解@Test
+    * import org.junit.Test;
+    * 名字里带有test或者Test
+  * 之后就可再方法体内写测试代码
+  * 左键双击单元测试方法名 - 右键 - run as - JUnit Test
+  * 无异常 - 绿
+  * 有异常 - 红
+
+### 改configuration for run
+右键进入run configuration - 添加arguments
   
-## VS Code 快捷键
+## VS Code
+### 快捷键
 1、注释：
 
 单行注释：[ctrl+k,ctrl+c] 或 ctrl+/
