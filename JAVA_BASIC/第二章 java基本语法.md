@@ -6,12 +6,6 @@
 
 ![](./picture/image_1.368b5acf.png)
 
-
-
-![](./picture/image_2.7197b5ea.png)
-
-
-
 ![](./picture/image_3.b2add35c.png)
 
 
