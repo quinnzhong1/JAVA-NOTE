@@ -1,3 +1,26 @@
+# 枚举类 Enumeration
+
+* **本质：是一个类，而它里面的元素是这个类的实例，不会再构造出新的对象**
+* e.g. `public enum Size{SMALL, MEDIUM, LARGE}`
+* 不需要equals, 用==
+* 可以有构造器、方法和字段
+* 构造器必须是private
+  
+  e.g.
+
+  ![](picture/example_enum.png)
+
+* 所有枚举类型都是Enum类的子类，继承了这个类的很多方法
+* `Size.SMALL.toString()` 直接获得字符串SMALL
+* static方法 - valueOf  `Size s = Enum.valueOf(Size.class, "SMALL")`
+* `Size[] values = Size.values();`该静态方法能返回所有枚举值的数组
+* `int ordinal()`
+
+  返回枚举常量在enum中的位置，从0开始
+* `int compareTo(E other)`
+
+  根据元素出现在enum里面的次序比大小，越靠前的越小，返回-负整数；相等返回0，大于返回正整数
+
 # 泛型
 
 ## 常用泛型类
