@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 上面的页面占20%，下面是的页面占剩下的80% -->
+<frameset rows="20%, *" frameborder="no">
+    <frame src="top.html"/>
+    <frameset cols="15%, *">
+        <frame src="left.html"/>
+            <frameset>
+                <frame src="main.html"/>
+                <frame src="bottom.html"/>
+            </frameset>
+    </frameset>
+</frameset>
+<body>
+    这里嵌入一个小页面！
+    <iframe src="main.html">
+</body>
+</html>
