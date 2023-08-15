@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS-对象-Array</title>
+</head>
+<body>
+<script>
+    //定义数组
+    // var arr = new Array(1,2,3,4);
+    // var arr = [1,2,3,4];
+	//获取数组中的值，索引从0开始计数
+    //  console.log(arr[0]);
+    //  console.log(arr[1]);
+    //特点: 长度可变 类型可变
+    // var arr = [1,2,3,4];
+    // arr[10] = 50;
+
+    // console.log(arr[10]); //50
+    // console.log(arr[9]); //undefined
+    // console.log(arr[8]); //undefined
+
+    // arr[9] = true;
+    // arr[8] = 'A';
+
+    // console.log(arr)
+
+    var arr = [1, 2, 3, 4];
+    //遍历所有元素
+    for (let i = 0; i < arr.length; i++) {
+        console.log(arr[i]);
+    }
+    //e是形参，接受的是数组遍历时的值
+    //foreach只遍历有值的元素
+    // arr.forEach(function(e){
+    //  console.log(e);
+    // })
+    //箭头函数简化
+    arr.forEach((e) => {
+     console.log(e);
+}) 
+
+    //push: 添加元素到数组末尾
+    arr.push(7,8,9);
+    console.log(arr);
+
+    //splice: 删除元素 
+    //splice()函数用来数组中的元素，函数中填入2个参数。
+    //参数1：表示从哪个索引位置删除
+    //参数2：表示删除元素的个数
+    arr.splice(2,2);
+    console.log(arr);
+</script>   
+</body>
+<script>
+    
+
+</script>
+</html>
