@@ -7,6 +7,8 @@
 
 # Array & LinkedList
 
+## implement ArrayList & LinkedList
+
 ## Two Pointers
 
 ### opposite-direction pointers
@@ -24,14 +26,35 @@
     return 没找到 或 找到对应值
     ```
 
-#### Reverse
-#### Two Sum
-#### Partition
+* Reverse
+* Two Sum
+* Partition
 
 ### same-direction pointers
-see quick_sort
+* ```python
+    slow = 0
+    fast = 1
+    while 没有遍历完：
+        if 满足要求的特殊条件:
+            slow += 1
+        fast += 1
+    return 合适的值
+    ```
 
 ### seperate pointers
+* ```python
+    left_1 = 0
+    left_2 = 0
+
+    while left_1 < len(nums1) and left_2 < len(nums2):
+        if 一定条件 1:
+            left_1 += 1
+            left_2 += 1
+        elif 一定条件 2:
+            left_1 += 1
+        elif 一定条件 3:
+            left_2 += 1
+    ```
 
 ## Quick Sort
 
@@ -114,6 +137,24 @@ see quick_sort
             return self.quickSort(nums, 0, len(nums) - 1)
   ```
 * ![](algorithms_pic/quick_sort.png)
+
+## Bubble Sort:
+* ```python
+    class Solution:
+        def bubbleSort(self, arr):
+            # 第 i 趟排序
+            for i in range(len(arr) - 1):
+                # 从序列中前 n - i + 1 个元素的第 1 个元素开始，相邻两个元素进行比较
+                for j in range(len(arr) - i - 1):
+                    # 相邻两个元素进行比较，如果前者大于后者，则交换位置
+                    if arr[j] > arr[j + 1]:
+                        arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+        return arr
+
+    def sortArray(self, nums: List[int]) -> List[int]:
+        return self.bubbleSort(nums)
+    ```
 
 ## Merge Sort
 * ```python
@@ -223,7 +264,7 @@ class Solution:
 * S(o) = O(1)
 
 ### Application
-* ```
+*   ```
     // 函数 f 是关于自变量 x 的单调函数
     int f(int x) {
         // ...
@@ -253,3 +294,60 @@ class Solution:
         return left;
     }
     ```
+
+## 前缀和数组
+
+* ```python
+    class NumArray(object):
+
+        def __init__(self, nums):
+            """
+            :type nums: List[int]
+            """
+            self.prenums = [0 for _ in range(len(nums) + 1)]
+            for i in range(1, len(self.prenums)):
+                self.prenums[i] = (nums[i - 1] + self.prenums[i - 1])
+
+        def sumRange(self, left, right):
+            """
+            :type left: int
+            :type right: int
+            :rtype: int
+            """
+            if left > right or left < 0 or right >= len(self.prenums) - 1:
+                return -1
+
+            return self.prenums[right + 1] - self.prenums[left]
+    ```
+
+## 差分和数组
+
+```python
+    # 差分数组工具类
+class Difference:
+    # 差分数组
+    def __init__(self, nums: List[int]):
+        assert len(nums) > 0
+        self.diff = [0] * len(nums)
+        # 根据初始数组构造差分数组
+        self.diff[0] = nums[0]
+        for i in range(1, len(nums)):
+            self.diff[i] = nums[i] - nums[i - 1]
+
+    # 给闭区间 [i, j] 增加 val（可以是负数）
+    def increment(self, i: int, j: int, val: int) -> None:
+        self.diff[i] += val
+        if j + 1 < len(self.diff):
+            self.diff[j + 1] -= val
+
+    # 返回结果数组
+    def result(self) -> List[int]:
+        res = [0] * len(self.diff)
+        # 根据差分数组构造结果数组
+        res[0] = self.diff[0]
+        for i in range(1, len(self.diff)):
+            res[i] = res[i - 1] + self.diff[i]
+        return res
+```
+
+
