@@ -25,13 +25,14 @@
 
     return 没找到 或 找到对应值
     ```
-
+* 不适用于linked list
 * Reverse
 * Two Sum
 * Partition
 
 ### same-direction pointers
 * ```python
+    # array
     slow = 0
     fast = 1
     while 没有遍历完：
@@ -39,6 +40,30 @@
             slow += 1
         fast += 1
     return 合适的值
+    ```
+
+* ```
+    // linkedlist
+    // 步长一样
+    slow = head
+    fast = head
+
+    while n:
+        fast = fast.next
+        n -= 1
+    while fast:
+        fast = fast.next
+        slow = slow.next
+    ```
+
+* ```
+    // 步长不一样的快慢指针
+    fast = head
+    slow = head
+
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
     ```
 
 ### seperate pointers
@@ -54,6 +79,51 @@
             left_1 += 1
         elif 一定条件 3:
             left_2 += 1
+    ```
+
+* ```
+    // linkedlist
+    left_1 = list1
+    left_2 = list2
+
+    while left_1 and left_2:
+        if 一定条件 1:
+            left_1 = left_1.next
+            left_2 = left_2.next
+        elif 一定条件 2:
+            left_1 = left_1.next
+        elif 一定条件 3:
+            left_2 = left_2.next
+    ```
+
+* ```python
+    class Solution(object):
+        def mergeTwoLists(self, list1, list2):
+            """
+            :type list1: Optional[ListNode]
+            :type list2: Optional[ListNode]
+            :rtype: Optional[ListNode]
+            """
+            if not list2:
+                return list1
+            elif not list1:
+                return list2
+
+            dummy_node = ListNode(-1)
+            cur = dummy_node
+
+            while list1 and list2:
+                if list1.val <= list2.val:
+                    cur.next = list1
+                    list1 = list1.next
+                else:
+                    cur.next = list2
+                    list2 = list2.next
+                cur = cur.next
+            
+            cur.next = list1 if list1 is not None else list2
+
+            return dummy_node.next
     ```
 
 ## Quick Sort
@@ -156,8 +226,56 @@
         return self.bubbleSort(nums)
     ```
 
+* ![](algorithms_pic/bubble_sort.png)
+
+## Selection Sort
+
+leetcode 75
+
+* ```python
+    class Solution:
+    def selectionSort(self, arr):
+        for i in range(len(arr) - 1):
+            # 记录未排序部分中最小值的位置
+            min_i = i
+            for j in range(i + 1, len(arr)):
+                if arr[j] < arr[min_i]:
+                    min_i = j
+            # 如果找到最小值的位置，将 i 位置上元素与最小值位置上的元素进行交换
+        if min_i != i:
+            arr[i], arr[min_i] = arr[min_i], arr[i]
+            
+        return arr
+
+    def sortArray(self, nums: List[int]) -> List[int]:
+        return self.selectionSort(nums)
+    ```
+
+* ![](algorithms_pic/selection_sort.png)
+
+## Insertion Sort
+
+leetcode 75
+
+* ```python
+    class Solution:
+        def insertionSort(self, arr):
+            for i in range(1, len(arr)):
+                temp = arr[i]
+                j = i
+                while j > 0 and arr[j - 1] > temp:
+                    arr[j], arr[j - 1] = arr[j - 1], arr[j]
+                    j -= 1
+                
+                arr[j] = temp
+        
+        def sortArray(self, nums):
+            return self.indertionSort(nums)
+  ```
+
 ## Merge Sort
 * ```python
+    # Array
     class Solution:
     def merge(self, left_arr, right_arr):           # 归并过程
         arr = []
@@ -194,6 +312,51 @@
 
     def sortArray(self, nums: List[int]) -> List[int]:
         return self.mergeSort(nums)
+    ```
+* ```python
+    # Linked list
+    class ListNode(object):
+        def __init__(self, val=0, next=None):
+            self.val = val
+            self.next = next
+    class Solution(object):
+        def mergeKLists(self, lists):
+            """
+            :type lists: List[ListNode]
+            :rtype: ListNode
+            """
+            if not lists:
+                return None
+            
+            return self.merge_sort(lists, 0, len(lists) - 1)
+            
+        def merge(self, node1, node2):
+            dummy = ListNode(-1)
+            cur = dummy
+            while node1 and node2:
+                if node1.val < node2.val:
+                    cur.next = node1
+                    node1 = node1.next
+                else:
+                    cur.next = node2
+                    node2 = node2.next
+                cur = cur.next
+            if node1:
+                cur.next = node1
+            if node2:
+                cur.next = node2
+            
+            return dummy.next
+
+        def merge_sort(self, lists, left, right):
+            if left == right:
+                return lists[left]
+            
+            mid = left + (right - left) // 2
+            left_node = self.merge_sort(lists, left, mid)
+            right_node = self.merge_sort(lists, mid + 1, right)
+
+            return self.merge(left_node, right_node)
     ```
 * ![](algorithms_pic/merge_sort.png)
 
@@ -350,4 +513,150 @@ class Difference:
         return res
 ```
 
+## Sliding Window (2-pointers)
+
+* ```python
+    window = []
+    left = 0
+    right = 0
+
+    while right < len(nums):
+        window.append(nums[right])
+        
+        # 定长度：超过窗口大小时，缩小窗口，维护窗口中始终为 window_size 的长度
+        if right - left + 1 >= window_size:
+            # ... 维护答案
+            window.popleft()
+            left += 1
+        
+        # 如果是不定长度窗口：忽略上面的if内容，写下面的while： 
+        while 窗口需要缩小:
+            window.popleft()
+            left += 1
+        
+        # 向右侧增大窗口
+        right += 1
+    ```
+
+* ```python
+    def slidingWindow(s: str):
+    # 用合适的数据结构记录窗口中的数据
+    window = {}
+    
+    left = 0
+    right = 0
+    
+    while right < len(s):
+        # c 是将移入窗口的字符
+        c = s[right]
+        if c not in window:
+            window[c] = 1
+        else:
+            window[c] += 1
+            
+        # 增大窗口
+        right += 1
+        
+        # 进行窗口内数据的一系列更新
+        # ...
+        
+        # 判断左侧窗口是否要收缩
+        while left < right and window needs shrink:
+            # d 是将移出窗口的字符
+            d = s[left]
+            
+            # 缩小窗口
+            left += 1
+            
+            # 进行窗口内数据的一系列更新
+            # ...
+    ```
+
+* ```python
+    import collections
+
+    class Solution(object):
+        def minWindow(self, s, t):
+            """
+            :type s: str
+            :type t: str
+            :rtype: str
+            """
+            window = collections.defaultdict(int)
+            need = collections.defaultdict(int)
+            valid = 0
+
+            start = 0
+            size = len(s) + 1
+            left, right = 0, 0
+
+            for c in t:
+                need[c] += 1
+            
+            while right < len(s):
+                insert_ch = s[right]
+                right += 1
+
+                if insert_ch in need:
+                    window[insert_ch] += 1
+                    if window[insert_ch] == need[insert_ch]:
+                        valid += 1
+                
+                while valid == len(need):
+                    if right - left < size:
+                        start = left
+                        size = right - left
+                    remove_ch = s[left]
+                    left += 1
+                    if remove_ch in need:
+                        if window[remove_ch] == need[remove_ch]:
+                            valid -= 1
+                        window[remove_ch] -= 1
+            
+            if size >= len(s) + 1:
+                return ''
+            
+            return s[start: start + size]
+    ```
+* ```python
+    # Rabin karp Algorithm
+    # 文本串
+    txt = ""
+    # 模式串
+    pat = ""
+
+    # 需要寻找的子串长度为模式串 pat 的长度
+    L = len(pat)
+    # 仅处理 ASCII 码字符串，可以理解为 256 进制的数字
+    R = 256
+    # 存储 R^(L - 1) 的结果
+    RL = R**(L - 1)
+    # 维护滑动窗口中字符串的哈希值
+    windowHash = 0
+    # 计算模式串的哈希值
+    patHash = 0
+    for i in range(len(pat)):
+        patHash = R * patHash + ord(pat[i])
+
+    # 滑动窗口代码框架
+    left, right = 0, 0
+    while right < len(txt):
+        # 扩大窗口，移入字符（在最低位添加数字）
+        windowHash = R * windowHash + ord(txt[right])
+        right += 1
+
+        # 当子串的长度达到要求
+        if right - left == L:
+            # 根据哈希值判断窗口中的子串是否匹配模式串 pat
+            if patHash == windowHash:
+                # 找到模式串
+                print("找到模式串，起始索引为", left)
+                return left
+
+            # 缩小窗口，移出字符（删除最高位数字）
+            windowHash = windowHash - ord(txt[left]) * RL
+            left += 1
+    # 没有找到模式串
+    return -1
+    ```
 

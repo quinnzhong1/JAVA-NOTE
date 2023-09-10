@@ -134,3 +134,8 @@ ctrl + shift + ] 展开鼠标所在代码段
 35、打开最近打开的文件：ctrl + r
 
 36、打开新的命令窗：ctrl + shift + c
+
+## Ideaj
+
+* opt + com + t: 快速生成代码块（比如if-else，比如try-catch）
+* com + n：新生成方法等
