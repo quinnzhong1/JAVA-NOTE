@@ -1,6 +1,19 @@
 ## 第一章 Java语言概述
 
 
+- **核心机制**
+  - jvm
+    - jvm可以理解为以字节码为机器指令的cpu
+    - 不同操作平台有不同的虚拟机
+    - 该机制屏蔽了底层运行平台的差异，实现了一次编译，随处运行
+    - 这使得java是解释型语言：先编译成字节码文件.class，然后平台装了jvm后，读一行字节码，解释一行
+    - c++之类的属于编译型语言，一次性全部编译好后直接是机器语言
+    - 只需要对上层接口进行编程，忽略底层 - 分层思想
+  - 垃圾收集 garbage collection
+    - 不再使用内存空间应该回收
+    - c等语言程序员需要负责回收无用内存
+    - java笑出了该责任，提供了一种系统级线程跟踪存储空间的分配情况。jvm空闲时自动检查和释放存储器空间，自动运行，但是程序员无法追踪
+
 1. **基本概念**
   - 数据结构（如何存放数据/载体）+算法（怎么排序/逻辑）=程序
   - 软件：按一定顺序组织的计算机数据与指令的集合   应用程序 and 系统程序
@@ -13,7 +26,7 @@
   - Java SE Java EE Java ME Java Card
   - Java两种核心机制：Java虚拟机(Java Virtal Machine)、垃圾收集机制(Garbage Collection)
 
-1. **程序总结**
+2. **程序总结**
   - JDK = JRE + JAVA开发工具（javac.exe, java.exe, javadoc.exe...）
   - JRE = JVM + JavaSE核心类库
   - path环境变量：windows执行命令时要搜索的路径
@@ -25,7 +38,7 @@
 - Java应用程序的执行入口是main()方法。它有固定的书写格式：
 
 ```
-public static void main(String\[\] args) {...}
+public static void main(String[] args) {...}
 ```
 
 - Java语言严格区分大小写。
@@ -52,6 +65,7 @@ public static void main(String[] args) {
 ```
 
 - 注释：单行//， 多行/\* \*/，文档/\*\* \*/
+  - /* */不能嵌套使用
 - 注释作用：可读性，debug
 - 注释特点：单行多行不参与编译；文档的可以被javadoc.exe解析，生成一套以网页文件形式体现的该程序说明文档
 - 多行注释不可嵌套
@@ -64,5 +78,12 @@ public static void main(String[] args) {
   - MyEclipse
   - IntelliJ IDEA
 
-
+* 格式
+  * 大括号对齐
+  * 大括号缩进
+  * 程序块之间有空行
+  * 运算符两侧加空格
+  * {前面有空格
+  * 并排语句之间有空格
+  * 成对编程
 

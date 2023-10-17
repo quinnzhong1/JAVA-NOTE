@@ -43,8 +43,9 @@
     ```
 
 * ```
-    // linkedlist
-    // 步长一样
+    # linkedlist
+    # 步长一样
+    # fast先到指定位置，然后fast与slow保持一定距离前进
     slow = head
     fast = head
 
@@ -660,3 +661,205 @@ class Difference:
     return -1
     ```
 
+# Tree - Binary Tree
+
+## Traverse
+### Preorder traversal
+```python
+class Solution:
+    # Recursion
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        
+        def preorder(root):
+            if not root:
+                return
+            res.append(root.val)
+            preorder(root.left)
+            preorder(root.right)
+
+        preorder(root)
+        return res
+```
+
+```python
+class Solution:
+    # Stack
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:                        # 二叉树为空直接返回
+            return []
+            
+        res = []
+        stack = [root]
+
+        while stack:                        # 栈不为空
+            node = stack.pop()              # 弹出根节点
+            res.append(node.val)            # 访问根节点
+            if node.right:
+                stack.append(node.right)    # 右子树入栈
+            if node.left:
+                stack.append(node.left)     # 左子树入栈
+
+        return res
+
+```
+### inorder traversal
+```python
+# Recursion
+class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        def inorder(root):
+            if not root:
+                return
+            inorder(root.left)
+            res.append(root.val)
+            inorder(root.right)
+
+        inorder(root)
+        return res
+```
+
+```python
+class Solution:
+    # Stack
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:                # 二叉树为空直接返回
+            return []
+        
+        res = []
+        stack = []
+
+        while root or stack:        # 根节点或栈不为空
+            while root:             
+                stack.append(root)  # 将当前树的根节点入栈
+                root = root.left    # 找到最左侧节点
+            
+            node = stack.pop()      # 遍历到最左侧，当前节点无左子树时，将最左侧节点弹出
+            res.append(node.val)    # 访问该节点
+            root = node.right       # 尝试访问该节点的右子树
+        return res
+```
+
+### Postorder traversal
+```python
+class Solution:
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        res = []
+        def postorder(root):
+            if not root:
+                return
+            postorder(root.left)
+            postorder(root.right)
+            res.append(root.val)
+
+        postorder(root)
+        return res
+```
+```python
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        # Stack
+        res = []
+        stack = []
+        prev = None                 # 保存前一个访问的节点，用于确定当前节点的右子树是否访问完毕
+        
+        while root or stack:        # 根节点或栈不为空
+            while root:
+                stack.append(root)  # 将当前树的根节点入栈
+                root = root.left    # 继续访问左子树，找到最左侧节点
+
+            node = stack.pop()      # 遍历到最左侧，当前节点无左子树时，将最左侧节点弹出
+
+            # 如果当前节点无右子树或者右子树访问完毕
+            if not node.right or node.right == prev:
+                res.append(node.val)# 访问该节点
+                prev = node         # 记录前一节点
+                root = None         # 将当前根节点标记为空
+            else:
+                stack.append(node)  # 右子树尚未访问完毕，将当前节点重新压回栈中
+                root = node.right   # 继续访问右子树
+                
+        return res
+```
+
+### Level-order Traversal
+```python
+class Solution:
+    # Queue
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        if not root:
+            return []
+        queue = [root]
+        order = []
+        while queue:
+            level = []
+            size = len(queue)
+            for _ in range(size):
+                curr = queue.pop(0)
+                level.append(curr.val)
+                if curr.left:
+                    queue.append(curr.left)
+                if curr.right:
+                    queue.append(curr.right)
+            if level:
+                order.append(level)
+        return order
+
+```
+## Restoration
+### preorder + inorder
+```python
+class Solution:
+    # Recursion
+    def buildTree(self, preorder: List[int], inorder: List[int]) -> TreeNode:
+        def createTree(preorder, inorder, n):
+            if n == 0:
+                return None
+            k = 0
+            while preorder[0] != inorder[k]:
+                k += 1
+            node = TreeNode(inorder[k])
+            node.left = createTree(preorder[1: k + 1], inorder[0: k], k)
+            node.right = createTree(preorder[k + 1:], inorder[k + 1:], n - k - 1)
+            return node
+        return createTree(preorder, inorder, len(inorder))
+```
+
+### postorder + inorder:
+```python
+    def buildTree(self, inorder, postorder):
+        # Recursion
+        def createTree(inorder, postorder, n):
+            if n == 0:
+                return None
+            k = 0
+            while postorder[n-1] != inorder[k]:
+                k += 1
+            node =  TreeNode(inorder[k])
+            node.left = createTree(inorder[0: k], postorder[0: k], k)
+            node.right = createTree(inorder[k + 1: n], postorder[k: n - 1], n - k - 1)
+            return node
+        return createTree(inorder, postorder, len(postorder))
+```
+
+### preorder + postorder:
+```python
+    def buildTree(self, preorder, postorder):
+        # Recursion
+        def createTree(preorder, postorder, n):
+            if n == 0:
+                return None
+            node = TreeNode(preorder[0])
+            if n == 1:
+                return node
+            k = 0
+            while postorder[k] != preorder[1]:
+                k += 1
+            node.left = createTree(preorder[1: k + 2], postorder[: k + 1], k + 1)
+            node.right = createTree(preorder[k + 2: ], postorder[k + 1: -1], n - k - 2)
+            return node
+        return createTree(preorder, postorder, len(preorder))
+```
+
+## Recursion
