@@ -1,9 +1,12 @@
 # Leetcode Note
 
-* 必须进行null和0检测
+* if,for,while等与{}或者（）之间必须有一个空格
+* =左右要加空格
+* 必须进行null和0长度检测
 * 必要的话需要把不简洁的部分放在function里
 * 检查index问题
 * 检查是否符合题目
+* 时间复杂度其实看的是最坏
 
 # Array & LinkedList
 
@@ -861,5 +864,3 @@ class Solution:
             return node
         return createTree(preorder, postorder, len(preorder))
 ```
-
-## Recursion
