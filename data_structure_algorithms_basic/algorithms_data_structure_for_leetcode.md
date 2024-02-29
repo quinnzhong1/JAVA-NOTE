@@ -364,6 +364,240 @@ leetcode 75
     ```
 * ![](algorithms_pic/merge_sort.png)
 
+## heap sort
+* ```python
+    # heap data structure
+    class MaxHeap:
+        def __init__(self):
+            self.max_heap = []
+    ```
+* ```python
+    # get_max
+    class MaxHeap:
+    ......
+    def peek(self) -> int:
+        # 大顶堆为空
+        if not self.max_heap:
+            return None
+        # 返回堆顶元素
+        return self.max_heap[0]
+
+    ```
+* ```python
+    # insert
+    class MaxHeap:
+    ......
+    def push(self, val: int):
+        # 将新元素添加到堆的末尾
+        self.max_heap.append(val)
+        
+        size = len(self.max_heap)
+        # 从新插入的元素节点开始，进行上移调整
+        self.__shift_up(size - 1)
+        
+    def __shift_up(self, i: int):
+        while (i - 1) // 2 >= 0 and self.max_heap[i] > self.max_heap[(i - 1) // 2]:
+            self.max_heap[i], self.max_heap[(i - 1) // 2] = self.max_heap[(i - 1) // 2], self.max_heap[i]
+            i = (i - 1) // 2
+
+    ```
+* ```python
+    # Heapify function
+    def __shift_down(self, i: int, n: int):
+        while 2 * i + 1 < n:
+            # 左右子节点编号
+            left, right = 2 * i + 1, 2 * i + 2
+            
+            # 找出左右子节点中的较大值节点编号
+            if 2 * i + 2 >= n:
+                # 右子节点编号超出范围（只有左子节点
+                larger = left
+            else:
+                # 左子节点、右子节点都存在
+                if self.max_heap[left] >= self.max_heap[right]:
+                    larger = left
+                else:
+                    larger = right
+            
+            # 将当前节点值与其较大的子节点进行比较
+            if self.max_heap[i] < self.max_heap[larger]:
+                # 如果当前节点值小于其较大的子节点，则将它们交换
+                self.max_heap[i], self.max_heap[larger] = self.max_heap[larger], self.max_heap[i]
+                i = larger
+            else:
+                # 如果当前节点值大于等于于其较大的子节点，此时结束
+                break
+    ```
+* ```python
+    # delete - need to use heapify function
+    class MaxHeap:
+    ......        
+    def pop(self) -> int:
+        # 堆为空
+        if not self.max_heap:
+            raise IndexError("堆为空")
+        
+        size = len(self.max_heap)
+        self.max_heap[0], self.max_heap[size - 1] = self.max_heap[size - 1], self.max_heap[0]
+        # 删除堆顶元素
+        val = self.max_heap.pop()
+        # 节点数减 1
+        size -= 1 
+        
+        # 下移调整
+        self.__shift_down(0, size)
+        
+        # 返回堆顶元素
+        return val
+
+    
+    def __shift_down(self, i: int, n: int):
+        while 2 * i + 1 < n:
+            # 左右子节点编号
+            left, right = 2 * i + 1, 2 * i + 2
+            
+            # 找出左右子节点中的较大值节点编号
+            if 2 * i + 2 >= n:
+                # 右子节点编号超出范围（只有左子节点
+                larger = left
+            else:
+                # 左子节点、右子节点都存在
+                if self.max_heap[left] >= self.max_heap[right]:
+                    larger = left
+                else:
+                    larger = right
+            
+            # 将当前节点值与其较大的子节点进行比较
+            if self.max_heap[i] < self.max_heap[larger]:
+                # 如果当前节点值小于其较大的子节点，则将它们交换
+                self.max_heap[i], self.max_heap[larger] = self.max_heap[larger], self.max_heap[i]
+                i = larger
+            else:
+                # 如果当前节点值大于等于于其较大的子节点，此时结束
+                break
+
+    ```
+* ```python
+    # heap sort
+    class MaxHeap:
+    ......
+        def __buildMaxHeap(self, nums: [int]):
+            size = len(nums)
+            # 先将数组 nums 的元素按顺序添加到 max_heap 中
+            for i in range(size):
+                self.max_heap.append(nums[i])
+            
+            # 从最后一个非叶子节点开始，进行下移调整
+            for i in range((size - 2) // 2, -1, -1):
+                self.__shift_down(i, size)
+
+        def maxHeapSort(self, nums: [int]) -> [int]:
+            # 根据数组 nums 建立初始堆
+            self.__buildMaxHeap(nums)
+            
+            size = len(self.max_heap)
+            for i in range(size - 1, -1, -1):
+                # 交换根节点与当前堆的最后一个节点
+                self.max_heap[0], self.max_heap[i] = self.max_heap[i], self.max_heap[0]
+                # 从根节点开始，对当前堆进行下移调整
+                self.__shift_down(0, i)
+            
+            # 返回排序后的数组
+            return self.max_heap
+    
+    class Solution:
+        def maxHeapSort(self, nums: [int]) -> [int]:
+            return MaxHeap().maxHeapSort(nums)
+            
+        def sortArray(self, nums: [int]) -> [int]:
+            return self.maxHeapSort(nums)
+        
+    print(Solution().sortArray([10, 25, 6, 8, 7, 1, 20, 23, 16, 19, 17, 3, 18, 14]))
+
+    ```
+* 算法思想
+    
+    构建初始大顶堆：
+
+    定义一个数组实现的堆结构，将原始数组的元素依次存入堆结构的数组中（初始顺序不变）。
+    从数组的中间位置开始，从右至左，依次通过「下移调整」将数组转换为一个大顶堆。
+    
+    交换元素，调整堆：
+
+    交换堆顶元素（第 1 个元素）与末尾（最后 1 个元素）的位置，交换完成后，堆的长度减 1。
+    交换元素之后，由于堆顶元素发生了改变，需要从根节点开始，对当前堆进行「下移调整」，使其保持堆的特性。
+
+    重复交换和调整堆：
+
+    重复第 2 步，直到堆的大小为 1 时，此时大顶堆的数组已经完全有序。
+* ![](./algorithms_pic/heap_sort.png)
+
+## Counting sort
+
+* ```python
+    class Solution:
+    def countingSort(self, nums: [int]) -> [int]:
+        # 计算待排序数组中最大值元素 nums_max 和最小值元素 nums_min
+        nums_min, nums_max = min(nums), max(nums)
+        # 定义计数数组 counts，大小为 最大值元素 - 最小值元素 + 1
+        size = nums_max - nums_min + 1
+        counts = [0 for _ in range(size)]
+        
+        # 统计值为 num 的元素出现的次数
+        for num in nums:
+            counts[num - nums_min] += 1
+        
+        # 生成累积计数数组
+        for i in range(1, size):
+            counts[i] += counts[i - 1]
+
+        # 反向填充目标数组
+        res = [0 for _ in range(len(nums))]
+        for i in range(len(nums) - 1, -1, -1):
+            num = nums[i]
+            # 根据累积计数数组，将 num 放在数组对应位置
+            res[counts[num - nums_min] - 1] = num
+            # 将 num 的对应放置位置减 1，从而得到下个元素 num 的放置位置
+            counts[nums[i] - nums_min] -= 1
+
+        return res
+
+    def sortArray(self, nums: [int]) -> [int]:
+        return self.countingSort(nums)
+
+    ```
+
+## Radix sort
+* ```python
+    class Solution:
+        def radixSort(self, nums: [int]) -> [int]:
+            # 桶的大小为所有元素的最大位数
+            size = len(str(max(nums)))
+            
+            # 从最低位（个位）开始，逐位遍历每一位
+            for i in range(size):
+                # 定义长度为 10 的桶数组 buckets，每个桶分别代表 0 ~ 9 中的 1 个数字。
+                buckets = [[] for _ in range(10)]
+                # 遍历数组元素，按照每个元素当前位上的数字，将元素放入对应数字的桶中。
+                for num in nums:
+                    buckets[num // (10 ** i) % 10].append(num)
+                # 清空原始数组
+                nums.clear()
+                # 按照桶的顺序依次取出对应元素，重新加入到原始数组中。
+                for bucket in buckets:
+                    for num in bucket:
+                        nums.append(num)
+                        
+            # 完成排序，返回结果数组
+            return nums
+        
+        def sortArray(self, nums: [int]) -> [int]:
+            return self.radixSort(nums)
+
+    ```
+
+* ![](./algorithms_pic/radix_sort.png)
+
 ## Binary Search
 
 * leetcode704
@@ -389,6 +623,7 @@ class Solution:
         # 未搜索到元素，返回 -1
         return -1
 ```
+
 
 ### Exclusion
 ```python
@@ -864,3 +1099,120 @@ class Solution:
             return node
         return createTree(preorder, postorder, len(preorder))
 ```
+
+# Binary Search Tree(BST)
+## find
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def searchBST(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:
+            return None
+        
+        if val == root.val:
+            return root
+        elif val < root.val:
+            return self.searchBST(root.left, val)
+        else:
+            return self.searchBST(root.right, val)
+
+```
+## insert
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
+        if root == None:
+            return TreeNode(val)
+
+        if val < root.val:
+            root.left = self.insertIntoBST(root.left, val)
+        if val > root.val:
+            root.right = self.insertIntoBST(root.right, val)
+        return root
+
+```
+## create
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def insertIntoBST(self, root: TreeNode, val: int) -> TreeNode:
+        if root == None:
+            return TreeNode(val)
+
+        if val < root.val:
+            root.left = self.insertIntoBST(root.left, val)
+        if val > root.val:
+            root.right = self.insertIntoBST(root.right, val)
+        return root
+    def buildBST(self, nums) -> TreeNode:
+        root = TreeNode(val)
+        for num in nums:
+            self.insertIntoBST(root, num)
+        return root
+
+```
+## delete
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+class Solution:
+    def deleteNode(self, root: TreeNode, val: int) -> TreeNode:
+        if not root:
+            return root
+
+        if root.val > val:
+            root.left = self.deleteNode(root.left, val)
+            return root
+        elif root.val < val:
+            root.right = self.deleteNode(root.right, val)
+            return root
+        else:
+            if not root.left:
+                return root.right
+            elif not root.right:
+                return root.left
+            else:
+                curr = root.right
+                while curr.left:
+                    curr = curr.left
+                curr.left = root.left
+                return root.right
+
+```
+
+# Hashmap
+## Concept
+* string or others -> prehashing -> integer -> hashing -> hashcode
+* int(large) -> hash function(h(x)) -> int(small)
+* hash function (m: the size of the table)
+  * 直接定址法：hash(key) = a * key + b -> 线性
+  * 除留余数法：hash(key) = key mod p (p is a prime number and less than m)
+  * 平方取中法：hash(key) = (key * key) // 100 mod 1000
+  * 基数转换法：看成某种进制，再转回十进制
+* hash collision
+  * hash(key1) = hash(key2)
+  * methods:
+    * open addressing: H(i) = (Hash(key) + F(i)) mod m
+    * chaining: hash(key) -> put all the keys of the same value into the same position -> use linked-list -> find a value -> traverse the linked-list
+
+# Dynamic Programming(DP)
